@@ -9,12 +9,19 @@ class TestUrbanRoutes:
 
     driver = None
 
-    @classmethod
-    def setup_class(cls):
+
+    def setup_class(self):
         options = Options()
-        options.set_capability("goog:loggingPrefs", {'performance': 'ALL'})
-        cls.driver = webdriver.Chrome(service=Service(), options=options)
-        cls.driver.get(data.urban_routes_url)
+        options.set_capability(
+            "goog:loggingPrefs",
+            {'performance': 'ALL'}
+        )
+        self.driver = webdriver.Chrome(
+            service=Service(),
+            options=options
+        )
+        self.driver.get(data.urban_routes_url)
+        self.routes_page = UrbanRoutesPage(self.driver)
 
 
     def test_set_route(self):
@@ -242,6 +249,7 @@ class TestUrbanRoutes:
 
 
 
-    @classmethod
-    def teardown_class(cls):
-        cls.driver.quit()
+
+    def teardown_class(self):
+        if self.driver is not None:
+            self.driver.quit()
